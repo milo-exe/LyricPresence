@@ -10,10 +10,17 @@ LyricPresence reads your current Spotify playback directly from Windows, fetches
 
 ---
 
+## Download
+
+Grab the latest `.exe` from the [Releases page](https://github.com/milo-exe/LyricPresence/releases/latest). No Python required.
+
+> **VirusTotal scan:** [View results](https://www.virustotal.com/gui/file/46332ee25f4f05f296f6d09c50b778bc903ae1cc24a0a39ac5b10570a2931f6f?nocache=1) — some antivirus tools flag PyInstaller-packaged apps as false positives. The source code is fully open and auditable above.
+
+---
+
 ## Requirements
 
 - Windows 10 or 11
-- Python 3.10+
 - Spotify desktop app
 - A Discord account
 
