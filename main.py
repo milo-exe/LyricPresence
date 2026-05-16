@@ -1,9 +1,12 @@
 import os
+import sys
 import time
 import ctypes
 import asyncio
 import datetime
 import threading
+import tkinter as tk
+from tkinter import simpledialog, messagebox
 import requests
 import syncedlyrics
 from dotenv import load_dotenv
@@ -14,8 +17,44 @@ from rich.panel import Panel
 from rich.table import Table
 from rich import box
 
-load_dotenv()
+# Resolve paths relative to the exe when frozen, or the script when not
+if getattr(sys, "frozen", False):
+    BASE_DIR = os.path.dirname(sys.executable)
+else:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+ENV_PATH = os.path.join(BASE_DIR, ".env")
+
+
+def ask_for_token():
+    root = tk.Tk()
+    root.withdraw()
+    root.attributes("-topmost", True)
+    token = simpledialog.askstring(
+        "LyricPresence Setup",
+        "Paste your Discord token below.\n\n"
+        "How to get it:\n"
+        "1. Open Discord in your browser\n"
+        "2. Press F12 → Network tab → reload (Ctrl+R)\n"
+        "3. Filter by 'science', click any result\n"
+        "4. Headers → Authorization — copy that value",
+        show="*",
+        parent=root,
+    )
+    root.destroy()
+    return token.strip() if token else None
+
+
+load_dotenv(ENV_PATH)
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+
+if not DISCORD_TOKEN:
+    token = ask_for_token()
+    if not token:
+        sys.exit("No token provided.")
+    with open(ENV_PATH, "w") as f:
+        f.write(f"DISCORD_TOKEN={token}\n")
+    DISCORD_TOKEN = token
 
 console = Console()
 
@@ -150,10 +189,6 @@ async def fetch_lyrics(song, artist):
 
 
 async def main():
-    if not DISCORD_TOKEN:
-        console.print("[red]ERROR: Missing DISCORD_TOKEN in .env[/red]")
-        return
-
     current_track_key = None
     lyrics_lines = []
     last_lyric = None
