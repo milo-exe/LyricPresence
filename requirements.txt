@@ -1,6 +1,7 @@
 syncedlyrics
 python-dotenv
 requests
+keyboard
 winrt-runtime
 winrt-Windows.Foundation
 winrt-Windows.Foundation.Collections
