@@ -22,6 +22,7 @@ Grab the latest `.exe` from the [Releases page](https://github.com/milo-exe/Lyri
 
 - Windows 10 or 11
 - Spotify desktop app
+- Python 3.10+
 - A Discord account
 
 ---
